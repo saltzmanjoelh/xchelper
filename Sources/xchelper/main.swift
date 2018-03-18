@@ -7,14 +7,11 @@
 //
 
 import Foundation
-/*
- !!! We don't use the frameworks. We compile each file from the frameworks directly into the app
- !!! since the frameworks are dynamically linked and we cannot copy them with the binary.
- */
-//import CliRunnable
-//import XcodeHelperCliKit
-//import XcodeHelperKit
+import XcodeHelperKit
+import CliRunnable
+import XcodeHelperCliKit
 
+// !!!: static build like this - `swift build -Xswiftc -static-stdlib`
 
 let helper = XCHelper(xcodeHelpable:XcodeHelper())
 do {
