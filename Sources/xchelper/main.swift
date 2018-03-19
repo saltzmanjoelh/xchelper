@@ -15,7 +15,9 @@ import XcodeHelperCliKit
 
 let helper = XCHelper(xcodeHelpable:XcodeHelper())
 do {
-    try helper.run(arguments:ProcessInfo.processInfo.arguments, environment:ProcessInfo.processInfo.environment)
+    try helper.run(arguments:ProcessInfo.processInfo.arguments,
+                   environment:ProcessInfo.processInfo.environment,
+                   yamlConfigurationPath: ProcessInfo.processInfo.environment["PWD"]?.appending("/.xcodehelper"))
 } catch let e as XcodeHelperError {
     print(e.description)
     if case XcodeHelperError.dockerBuild(let buildError) = e {
