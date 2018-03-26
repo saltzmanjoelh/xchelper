@@ -1,9 +1,10 @@
-// swift-tools-version:4.0
+// swift-tools-version:4.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
-// !!!: static build like this - `swift build -Xswiftc -static-stdlib`
+// !!!: Use `swift build` from the cli to get a static binary.
+//      Building from xcode does not produce the static binary
 
 let package = Package(
     name: "xchelper",

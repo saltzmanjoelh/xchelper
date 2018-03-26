@@ -12,12 +12,14 @@ import CliRunnable
 import XcodeHelperCliKit
 
 // !!!: static build like this - `swift build -Xswiftc -static-stdlib`
-
 let helper = XCHelper(xcodeHelpable:XcodeHelper())
 do {
-    try helper.run(arguments:ProcessInfo.processInfo.arguments,
-                   environment:ProcessInfo.processInfo.environment,
-                   yamlConfigurationPath: ProcessInfo.processInfo.environment["PWD"]?.appending("/.xcodehelper"))
+    let args = ProcessInfo.processInfo.arguments
+    let env = ProcessInfo.processInfo.environment
+    let yamlPath = helper.getYamlPath(args: args, env: env)
+    try helper.run(arguments: args,
+                   environment: env,
+                   yamlConfigurationPath: yamlPath)
 } catch let e as XcodeHelperError {
     print(e.description)
     if case XcodeHelperError.dockerBuild(let buildError) = e {
@@ -26,5 +28,8 @@ do {
 
 } catch let e as CliRunnableError {
     print(e.description)
+
+} catch let e {
+    print(e)
 }
 
