@@ -12,12 +12,21 @@ import CliRunnable
 import XcodeHelperCliKit
 
 // !!!: static build like this - `swift build -Xswiftc -static-stdlib`
+
+/*
+ - Run Script Phase -
+ xchelper docker-build
+ xchelper create-archive "$TARGET_BUILD_DIR/$PRODUCT_NAME" "$TARGET_BUILD_DIR/$PRODUCT_NAME.tar"
+ xchelper upload-archive "$TARGET_BUILD_DIR/$PRODUCT_NAME.tar" -c "$SOURCE_ROOT/credentials"
+ */
+
 let helper = XCHelper(xcodeHelpable:XcodeHelper())
 do {
     let args = ProcessInfo.processInfo.arguments
     let env = ProcessInfo.processInfo.environment
-    let yamlPath = helper.getYamlPath(args: args, env: env)
-    try helper.run(arguments: args,
+    let configPathKeys = [XCHelper.changeDirectoryOption.short.rawValue, XCHelper.changeDirectoryOption.long.rawValue]
+    let yamlPath = helper.getYamlPath(possibleKeys: configPathKeys, args: args, env: env).appending(".xcodehelper")
+    _ = try helper.run(arguments: args,
                    environment: env,
                    yamlConfigurationPath: yamlPath)
 } catch let e as XcodeHelperError {
